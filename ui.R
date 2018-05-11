@@ -1,35 +1,28 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
+# For this project we make a reactive histogram using the iris dataset that comes with R.
+# We will use the render plot() function to render the plot and the plotOutput()
+# function in the shiny UI to display the plot. We will also use the input 
+# widgets learned so far: selectInput(), sliderInput() and radioButtons().
 
-library(shiny)
-
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("Predict Horsepower from MPG"),
-  
-  # Sidebar with a slider input for number of bins 
+library(shiny) 
+# Define UI for application that draws the Distribution histogram
+shinyUI(fluidPage(                                                                                                                                                                                                                                                                                                                                                                                                              
+  # Application header
+  titlePanel(title = h4("Iris Dataset Render Plot() ", align="center")),
   sidebarLayout(
+    # Sidebar panel
     sidebarPanel(
-       sliderInput("sliderMPG", "What is the MPG of the car?", 10,35,value=20),
-       checkboxInput("showModel1", "Show/Hide Model 1", value = TRUE),
-       checkboxInput("showModel2", "Show/Hide Model 2", value = TRUE)
+      selectInput("var","1. Select the variable from the iris dataset",
+                  choices = c("Sepal.Length" = 1, "Sepal.Width" = 2, "Petal.Length" = 3, "Petal.Width" = 4),selected = 1),
+      br(),
+      sliderInput("bins", "2. Select the number of BINs for histogram", min=5, max=25, value=15),
+      br(),
+      radioButtons("color", "3. Select the color of histogram",
+                   choices = c("Sky blue", "Red", "Green"), selected = "Sky blue")
     ),
-    
-    # Show a plot of the generated distribution
+    # Main Panel    
     mainPanel(
-       plotOutput("plot1"),
-       h3("Predicted horsepower from Model 1:"),
-       textOutput("pred1"),
-       h3("Predicted horsepower from Model 2:"),
-       textOutput("pred2")
+      plotOutput("myhist")
     )
   )
-))
+)
+)
